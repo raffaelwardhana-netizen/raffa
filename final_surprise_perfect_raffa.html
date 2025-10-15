@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surprise — Happy Birthday</title>
+  <style>
+    :root{
+      --bg:#f7efe6;
+      --accent:#c48b9f;
+      --text:#2b2b2b;
+      --muted:#6b6b6b;
+      --card-width:900px;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: radial-gradient(circle at 10% 10%, #fff, var(--bg));
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+    .card{
+      width:var(--card-width);
+      max-width:96%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0.45));
+      border-radius:18px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+      padding:36px;
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+    .rose{
+      width:70px;
+      height:70px;
+      border-radius:12px;
+      overflow:hidden;
+      flex:0 0 70px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+    .rose img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      margin:0;
+      font-size:34px;
+      color:var(--accent);
+      letter-spacing:1px;
+    }
+    p.lead{
+      margin:8px 0 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .content{
+      margin-top:22px;
+      line-height:1.75;
+      font-size:18px;
+      white-space:pre-wrap;
+      color:var(--text);
+    }
+    .cta{
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+    footer{
+      margin-top:26px;
+      font-size:13px;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    /* hearts */
+    .heart{
+      position:absolute;
+      top:-50px;
+      width:18px;
+      height:18px;
+      transform:translateY(-20px) rotate(45deg);
+      background:var(--accent);
+      left:50%;
+      opacity:0.9;
+      border-radius:3px;
+      pointer-events:none;
+      animation:fall linear infinite;
+    }
+    .heart:before, .heart:after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:18px;
+      background:var(--accent);
+      border-radius:50%;
+      top:-9px;
+      left:0;
+    }
+    .heart:after{left:9px}
+    @keyframes fall{
+      from{transform:translateY(-40vh) rotate(0deg); opacity:1}
+      to{transform:translateY(120vh) rotate(360deg); opacity:0.05}
+    }
+
+    /* overlay */
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(255,255,255,0.94);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+      flex-direction:column;
+      gap:12px;
+      transition:opacity .45s ease;
+      text-align:center;
+    }
+    .overlay.hidden{opacity:0;pointer-events:none}
+
+    /* small music button bottom-right */
+    .music-btn{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:120;
+      background:var(--accent);
+      color:white;
+      border:none;
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 22px rgba(196,139,159,0.22);
+      cursor:pointer;
+      font-weight:700;
+      font-size:18px;
+    }
+    .music-btn.playing{box-shadow:0 10px 28px rgba(0,0,0,0.12); transform:scale(1.02);}
+    .music-label{
+      position:fixed;
+      right:86px;
+      bottom:28px;
+      background:rgba(255,255,255,0.9);
+      padding:8px 10px;
+      border-radius:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.06);
+      font-size:13px;
+      color:var(--muted);
+      z-index:115;
+    }
+
+    @media (max-width:560px){
+      .rose{display:none}
+      h1{font-size:26px}
+      .content{font-size:16px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="overlay" id="overlay" role="dialog" aria-label="surprise">
+      <div style="font-size:26px;color:var(--accent);font-family:'Brush Script MT',cursive">Surprise 🎉</div>
+      <div class="small">Click to open your birthday letter</div>
+      <button class="music-btn" id="openBtn" style="width:auto;padding:10px 20px;border-radius:10px">Open</button>
+    </div>
+
+    <header>
+      <div class="rose" aria-hidden="true">
+        <img src="./A_digital_image_of_a_love_letter_displays_a_beige,.png" alt="flower" />
+      </div>
+      <div>
+        <h1>to: my favorite human, my love</h1>
+        <p class="lead">a little letter for you — written with all my heart.</p>
+      </div>
+    </header>
+
+    <div class="content" id="letter">
+💌 to: my favorite human, my love
+
+hi, sayang 
+
+happy birthday, my love.
+another year, another blessing, another reason
+to love you deeper than before.
+
+tau ngga? hari ini tuh bukan cuma spesial karena kamu lahir,
+tapi juga karena dunia dikasih satu alasan buat jadi lebih indah — you.
+ibarat senja yang selalu dinanti,
+kamu tuh versi paling hangat dari segalanya.
+
+aku bersyukur banget kamu lahir,
+karena kalo ngga, gimana aku bisa nemuin seseorang
+sebaik, sehangat, dan sekuat kamu?
+semesta bener-bener baik karena ngenalin aku ke kamu.
+
+dimataku, kamu selalu spesial,
+bahkan di hari biasa sekalipun — apalagi hari ini.
+
+
+hari ini aku cuma bisa nitip doa dari jauh.
+semoga di umur kamu yang baru ini:
+kamu makin dewasa, makin berani ngambil langkah,
+makin bisa berdamai sama diri sendiri, makin kuat,
+makin tenang, dan selalu sehat.
+
+semoga semua urusan kamu dilancarkan,
+dan yang paling penting:
+semoga kamu makin yakin kalau kamu pantas dicintai, dihargai, dan disayang tanpa tapi.
+
+
+remember this:
+you deserve all the love, all the kindness,
+and all the happiness this world can offer.
+
+ibadahnya jangan ditinggal ya, sayang.
+selalu inget Allah, karena dari-Nya
+datang semua kekuatan dan ketenangan itu.
+
+semoga mimpi-mimpi kamu datang satu-satu.
+yang belum kesampaian, semoga didekatkan.
+dan semoga kamu selalu dikelilingi orang-orang yang tulus, contohnya aku (iyain aja wkwk).
+
+
+penting nih:
+semoga kamu terus jadi pribadi yang adil, bijaksana,
+dan ngga lalai ngasih cinta kamu ke aku
+(kalau ngga, siap-siap aku tuntut di pengadilan rindu wkwkw).
+
+kuliah yang rajin ya, sayang.
+bukan cuma buat nilai, tapi buat masa depan kamu juga.
+aku percaya sama kamu, dan aku bakal selalu dukung kamu —
+lewat doa, semangat, dan chat randomku yang nggak jelas hahaha.
+
+kalau nanti kamu cape,
+jangan lupa istirahat, jangan terlalu keras sama diri sendiri.
+you’re doing great, and i’m proud of you.
+
+please take care of your heart, your mind, and your health — for me.
+
+
+let this year be your softest chapter yet.
+full of joy, growth, and peace.
+
+love you always,
+raffa
+(cowok kamu yang paling ganteng & paling cinta kamu)
+    </div>
+
+    <div class="cta" style="display:none">
+      <button class="btn" id="revealBtn">Send this as link</button>
+      <div class="small">You can download this file and share the link as a surprise.</div>
+    </div>
+
+    <footer>
+      <div class="small">Made with ❤️</div>
+      <div class="small">Open on desktop for best experience</div>
+    </footer>
+
+    <!-- hearts container -->
+    <div id="hearts"></div>
+  </div>
+
+  <!-- Hidden audio element -->
+  <audio id="bgAudio" preload="auto">
+    <source src="./v4.www-y2mate.blog - Ed Sheeran - Perfect (320 KBps) (1).mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- music button -->
+  <div class="music-label" id="musicLabel">Play music</div>
+  <button class="music-btn" id="musicBtn" aria-label="Play music">▶</button>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  const openBtn = document.getElementById('openBtn');
+  openBtn.addEventListener('click', ()=> {
+    overlay.classList.add('hidden');
+    startHearts();
+  });
+
+  // hearts
+  function makeHeart(x){
+    const h = document.createElement('div');
+    h.className='heart';
+    h.style.left = x + 'px';
+    h.style.width = (8 + Math.random()*22)+'px';
+    h.style.height = h.style.width;
+    h.style.animationDuration = (4 + Math.random()*6)+'s';
+    h.style.opacity = 0.8 + Math.random()*0.2;
+    document.getElementById('card').appendChild(h);
+    setTimeout(()=> h.remove(), 15000);
+  }
+  function startHearts(){
+    for(let i=0;i<10;i++){
+      setTimeout(()=> makeHeart(Math.random()*window.innerWidth*0.8), i*200);
+    }
+    window._heartInterval = setInterval(()=> makeHeart(Math.random()*window.innerWidth*0.8), 700);
+  }
+
+  // music controls
+  const audio = document.getElementById('bgAudio');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicLabel = document.getElementById('musicLabel');
+  let playing = false;
+
+  musicBtn.addEventListener('click', ()=> {
+    if(!playing){
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  });
+
+  audio.addEventListener('play', ()=> {
+    playing = true;
+    musicBtn.classList.add('playing');
+    musicBtn.textContent = '⏸';
+    musicLabel.textContent = 'Playing: Perfect — Ed Sheeran';
+  });
+  audio.addEventListener('pause', ()=> {
+    playing = false;
+    musicBtn.classList.remove('playing');
+    musicBtn.textContent = '▶';
+    musicLabel.textContent = 'Play music';
+  });
+  audio.addEventListener('ended', ()=> {
+    playing = false;
+    musicBtn.classList.remove('playing');
+    musicBtn.textContent = '▶';
+    musicLabel.textContent = 'Play music';
+  });
+
+  // download button (not shown)
+  const revealBtn = document.getElementById('revealBtn');
+  revealBtn && revealBtn.addEventListener('click', ()=> {
+    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'happy_birthday_surprise.html';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    alert('File downloaded.');
+  });
+</script>
+</body>
+</html>
